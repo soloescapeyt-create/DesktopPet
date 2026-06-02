@@ -1,0 +1,18 @@
+{
+  "position": null,
+  "stats": {
+    "hunger": 80,
+    "happiness": 80,
+    "energy": 80,
+    "bond": 20
+  },
+  "settings": {
+    "selectedCharacter": "sakura",
+    "petSize": "medium",
+    "alwaysOnTop": true,
+    "startWithWindows": false,
+    "sound": false
+  },
+  "lastFedTime": null,
+  "lastUpdatedAt": null
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RomDesktopPet</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="appShell">
+    <section id="petStage" aria-label="RomDesktopPet">
+      <div id="speechBubble" class="speech-bubble" aria-live="polite"></div>
+
+      <div id="petCharacter" class="pet-character is-idle" role="button" aria-label="Desktop pet" tabindex="0">
+        <img id="petImage" class="pet-image" alt="" draggable="false">
+
+        <div id="cssPet" class="css-pet" aria-hidden="true">
+          <div class="hair hair-back"></div>
+          <div class="hair hair-left"></div>
+          <div class="hair hair-right"></div>
+          <div class="headband"></div>
+          <div class="pet-body">
+            <div class="outfit-panel"></div>
+            <div class="face">
+              <span class="eye eye-left"></span>
+              <span class="eye eye-right"></span>
+              <span class="forehead-mark"></span>
+              <span class="cheek cheek-left"></span>
+              <span class="cheek cheek-right"></span>
+              <span class="mouth"></span>
+              <span id="petProp" class="pet-prop"></span>
+            </div>
+          </div>
+          <div class="hand hand-left"></div>
+          <div class="hand hand-right"></div>
+          <div class="aura-ring"></div>
+          <div class="feet">
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+
+      <nav id="actionMenu" class="action-menu" aria-label="Pet actions">
+        <button id="feedPetButton" type="button">Feed</button>
+        <button id="sleepPetButton" type="button">Sleep</button>
+        <button id="playPetButton" type="button">Play</button>
+        <button id="openPanelButton" type="button">Tasks</button>
+      </nav>
+    </section>
+
+    <aside id="taskPanel" class="task-panel" aria-label="Task panel">
+      <header class="panel-header">
+        <div>
+          <p class="eyebrow">RomDesktopPet</p>
+          <h1>Task Panel</h1>
+        </div>
+        <button id="closePanelButton" class="icon-button" type="button" aria-label="Close task panel">x</button>
+      </header>
+
+      <section class="tool-section">
+        <h2>Pet Stats</h2>
+        <div class="stats-grid">
+          <label>Hunger <meter id="hungerMeter" min="0" max="100"></meter><span id="hungerValue"></span></label>
+          <label>Happy <meter id="happinessMeter" min="0" max="100"></meter><span id="happinessValue"></span></label>
+          <label>Energy <meter id="energyMeter" min="0" max="100"></meter><span id="energyValue"></span></label>
+          <label>Bond <meter id="bondMeter" min="0" max="100"></meter><span id="bondValue"></span></label>
+        </div>
+      </section>
+
+      <section class="tool-section">
+        <h2>Open Website</h2>
+        <div class="input-row">
+          <input id="websiteInput" type="url" placeholder="https://example.com">
+          <button id="openWebsiteButton" type="button">Open</button>
+        </div>
+      </section>
+
+      <section class="tool-section">
+        <h2>Quick Note</h2>
+        <textarea id="noteInput" rows="3" maxlength="500" placeholder="Write a note"></textarea>
+        <button id="saveNoteButton" type="button">Save Note</button>
+        <ul id="notesList" class="notes-list" aria-label="Saved notes"></ul>
+      </section>
+
+      <section class="tool-section">
+        <h2>Focus Timer</h2>
+        <div class="timer-row">
+          <span id="timerDisplay" class="timer-display">25:00</span>
+          <button id="startTimerButton" type="button">Start</button>
+          <button id="resetTimerButton" type="button">Reset</button>
+        </div>
+      </section>
+
+      <section class="tool-section">
+        <h2>Reminder</h2>
+        <input id="reminderTextInput" type="text" maxlength="120" placeholder="Reminder">
+        <div class="input-row">
+          <input id="reminderMinutesInput" type="number" min="1" max="1440" value="5">
+          <button id="addReminderButton" type="button">Add</button>
+        </div>
+        <ul id="remindersList" class="notes-list" aria-label="Active reminders"></ul>
+      </section>
+
+      <section class="tool-section">
+        <h2>Open Folder</h2>
+        <div class="input-row">
+          <input id="folderPathInput" type="text" placeholder="Folder path">
+          <button id="chooseFolderButton" type="button">Choose</button>
+        </div>
+        <button id="openFolderButton" type="button">Open Folder</button>
+      </section>
+
+      <section class="tool-section">
+        <h2>Settings</h2>
+        <label class="setting-row">
+          <span>Pet character</span>
+          <select id="characterSelect">
+            <option value="sakura">Sakura Haruno</option>
+            <option value="tsunade">Tsunade</option>
+            <option value="hinata">Hinata Hyuga</option>
+          </select>
+        </label>
+        <label class="setting-row">
+          <span>Pet size</span>
+          <select id="petSizeSelect">
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+          </select>
+        </label>
+        <label class="setting-row">
+          <span>Always on top</span>
+          <input id="alwaysOnTopToggle" type="checkbox">
+        </label>
+        <label class="setting-row">
+          <span>Start with Windows</span>
+          <input id="startWithWindowsToggle" type="checkbox">
+        </label>
+        <label class="setting-row">
+          <span>Sound</span>
+          <input id="soundToggle" type="checkbox">
+        </label>
+      </section>
+    </aside>
+  </main>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

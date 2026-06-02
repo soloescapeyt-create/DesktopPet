@@ -1,0 +1,911 @@
+:root {
+  --pet-scale: 1;
+  --pet-size: 168px;
+  --ink: #332933;
+  --panel-bg: rgba(255, 252, 247, 0.94);
+  --panel-line: rgba(83, 65, 76, 0.14);
+  --accent: #ff7aaa;
+  --mint: #8ee6cf;
+  --sun: #ffe783;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: transparent;
+  color: var(--ink);
+  font-family: "Segoe UI", Arial, sans-serif;
+  user-select: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  background: var(--ink);
+  color: white;
+  cursor: pointer;
+  padding: 8px 10px;
+  transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(51, 41, 51, 0.18);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  border: 1px solid var(--panel-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--ink);
+  outline: none;
+  padding: 8px 9px;
+}
+
+textarea {
+  resize: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(255, 122, 170, 0.75);
+  box-shadow: 0 0 0 3px rgba(255, 122, 170, 0.18);
+}
+
+#appShell {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  pointer-events: none;
+}
+
+#petStage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 320px;
+  pointer-events: none;
+}
+
+.pet-character {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  width: var(--pet-size);
+  height: var(--pet-size);
+  --hair: #f18fae;
+  --hair-dark: #d95f8a;
+  --outfit: #e35d76;
+  --outfit-trim: #fff1f6;
+  --skin: #ffd8be;
+  --eye: #352b35;
+  --aura: rgba(255, 122, 170, 0.28);
+  cursor: grab;
+  pointer-events: auto;
+  transform: translateX(-50%) scale(var(--pet-scale));
+  transform-origin: center bottom;
+  transition: filter 160ms ease;
+}
+
+.pet-character:active {
+  cursor: grabbing;
+}
+
+.pet-character.is-idle {
+  animation: idleBreath 2.8s ease-in-out infinite;
+}
+
+.pet-character.is-happy,
+.pet-character.is-excited {
+  animation: happyBounce 680ms cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+}
+
+.pet-character.is-eating {
+  animation: eatingWiggle 240ms ease-in-out infinite;
+}
+
+.pet-character.is-sleeping {
+  animation: sleepingFloat 3.2s ease-in-out infinite;
+}
+
+.pet-character.is-working {
+  animation: workingThink 1.4s ease-in-out infinite;
+}
+
+.pet-character.is-angry {
+  animation: angryShake 180ms ease-in-out infinite;
+}
+
+.pet-image {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 18px rgba(46, 33, 41, 0.22));
+  pointer-events: none;
+}
+
+.css-pet {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 16px 18px rgba(46, 33, 41, 0.24));
+  pointer-events: none;
+}
+
+.character-sakura {
+  --hair: #f08fb0;
+  --hair-dark: #c94f7e;
+  --outfit: #d94d67;
+  --outfit-trim: #1f294f;
+  --skin: #ffd8bd;
+  --eye: #365143;
+  --aura: rgba(255, 115, 160, 0.32);
+}
+
+.character-tsunade {
+  --hair: #f6d46f;
+  --hair-dark: #d6a539;
+  --outfit: #4fa36f;
+  --outfit-trim: #d9d2c1;
+  --skin: #ffd3ae;
+  --eye: #5a4b34;
+  --aura: rgba(255, 218, 106, 0.34);
+}
+
+.character-hinata {
+  --hair: #292b48;
+  --hair-dark: #151827;
+  --outfit: #b9abd9;
+  --outfit-trim: #efeaff;
+  --skin: #f7cdb9;
+  --eye: #d7d4ff;
+  --aura: rgba(165, 148, 232, 0.34);
+}
+
+.pet-body {
+  position: absolute;
+  left: 15%;
+  top: 18%;
+  width: 70%;
+  height: 68%;
+  border: 3px solid var(--ink);
+  border-radius: 48% 48% 42% 42%;
+  background:
+    radial-gradient(circle at 32% 36%, rgba(255, 255, 255, 0.9) 0 9%, transparent 10%),
+    linear-gradient(160deg, var(--skin) 0 56%, var(--outfit) 57% 100%);
+  overflow: hidden;
+  z-index: 2;
+}
+
+.hair {
+  position: absolute;
+  background: linear-gradient(160deg, var(--hair) 0%, var(--hair-dark) 100%);
+  border: 3px solid var(--ink);
+  pointer-events: none;
+}
+
+.hair-back {
+  left: 12%;
+  top: 7%;
+  width: 76%;
+  height: 68%;
+  border-radius: 46% 46% 34% 34%;
+  z-index: 0;
+  animation: hairSway 2.8s ease-in-out infinite;
+}
+
+.hair-left,
+.hair-right {
+  top: 22%;
+  width: 25%;
+  height: 51%;
+  border-radius: 50% 50% 34% 34%;
+  z-index: 3;
+}
+
+.hair-left {
+  left: 7%;
+  transform: rotate(8deg);
+}
+
+.hair-right {
+  right: 7%;
+  transform: rotate(-8deg);
+}
+
+.headband {
+  position: absolute;
+  left: 31%;
+  top: 19%;
+  width: 38%;
+  height: 10%;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: var(--outfit-trim);
+  z-index: 4;
+}
+
+.headband::before {
+  content: "";
+  position: absolute;
+  left: 23%;
+  right: 23%;
+  top: 50%;
+  height: 58%;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  background: #dfe4e8;
+  transform: translateY(-50%);
+}
+
+.outfit-panel {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: -1%;
+  height: 35%;
+  border: 3px solid var(--ink);
+  border-bottom: 0;
+  border-radius: 22px 22px 0 0;
+  background:
+    linear-gradient(90deg, transparent 0 42%, rgba(255, 255, 255, 0.75) 43% 57%, transparent 58% 100%),
+    var(--outfit);
+  z-index: 0;
+}
+
+.outfit-panel::before,
+.outfit-panel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: rgba(51, 41, 51, 0.55);
+}
+
+.outfit-panel::before {
+  left: 35%;
+}
+
+.outfit-panel::after {
+  right: 35%;
+}
+
+.hand {
+  position: absolute;
+  top: 62%;
+  width: 21px;
+  height: 24px;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: var(--skin);
+  z-index: 5;
+}
+
+.hand-left {
+  left: 17%;
+}
+
+.hand-right {
+  right: 17%;
+}
+
+.aura-ring {
+  position: absolute;
+  left: 18%;
+  top: 17%;
+  width: 64%;
+  height: 64%;
+  border: 3px solid var(--aura);
+  border-radius: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.eye {
+  position: absolute;
+  top: 38%;
+  width: 13%;
+  height: 15%;
+  border-radius: 50%;
+  background: var(--eye);
+  border: 2px solid rgba(51, 41, 51, 0.75);
+}
+
+.eye-left {
+  left: 29%;
+}
+
+.eye-right {
+  right: 29%;
+}
+
+.forehead-mark {
+  position: absolute;
+  left: 50%;
+  top: 31%;
+  width: 10px;
+  height: 14px;
+  opacity: 0;
+  transform: translateX(-50%) rotate(45deg);
+  background: #7d3fc2;
+  border: 2px solid var(--ink);
+}
+
+.cheek {
+  position: absolute;
+  top: 54%;
+  width: 12%;
+  height: 7%;
+  border-radius: 999px;
+  background: rgba(255, 122, 170, 0.55);
+}
+
+.cheek-left {
+  left: 18%;
+}
+
+.cheek-right {
+  right: 18%;
+}
+
+.mouth {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: 22%;
+  height: 12%;
+  border-bottom: 3px solid var(--ink);
+  border-radius: 0 0 999px 999px;
+  transform: translateX(-50%);
+}
+
+.pet-prop {
+  position: absolute;
+  left: 50%;
+  top: 23%;
+  font-size: 22px;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.feet {
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  bottom: 10%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.feet span {
+  width: 30px;
+  height: 13px;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: var(--outfit-trim);
+}
+
+.pet-character.is-happy .mouth,
+.pet-character.is-excited .mouth {
+  height: 16%;
+  border-bottom-width: 4px;
+}
+
+.pet-character.is-sad .mouth {
+  top: 64%;
+  border-top: 3px solid var(--ink);
+  border-bottom: 0;
+  border-radius: 999px 999px 0 0;
+}
+
+.pet-character.is-sleeping .eye {
+  height: 8%;
+  border-radius: 999px;
+  transform: rotate(7deg);
+}
+
+.pet-character.is-sleeping .mouth {
+  width: 14%;
+  height: 14%;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+}
+
+.pet-character.is-working .pet-prop,
+.pet-character.is-eating .pet-prop,
+.pet-character.is-sleeping .pet-prop {
+  opacity: 1;
+}
+
+.pet-character.is-angry .eye {
+  height: 11%;
+}
+
+.pet-character.is-angry .eye-left {
+  transform: rotate(16deg);
+}
+
+.pet-character.is-angry .eye-right {
+  transform: rotate(-16deg);
+}
+
+.character-sakura .headband::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 15px;
+  height: 7px;
+  border: 2px solid var(--ink);
+  border-radius: 999px 999px 0 0;
+  border-bottom: 0;
+  transform: translate(-50%, -50%);
+  background: transparent;
+}
+
+.character-sakura .hair-back {
+  clip-path: polygon(8% 10%, 92% 8%, 92% 62%, 76% 100%, 56% 72%, 42% 100%, 22% 68%);
+}
+
+.character-sakura .hair-left,
+.character-sakura .hair-right {
+  height: 39%;
+  border-radius: 46% 46% 56% 56%;
+}
+
+.character-sakura .outfit-panel {
+  background:
+    linear-gradient(90deg, transparent 0 42%, #f4d7d8 43% 57%, transparent 58% 100%),
+    linear-gradient(180deg, #db4f69 0 68%, #f4d7d8 69% 100%);
+}
+
+.character-tsunade .hair-back {
+  border-radius: 48% 48% 18% 18%;
+}
+
+.character-tsunade .hair-left,
+.character-tsunade .hair-right {
+  top: 31%;
+  height: 59%;
+  width: 27%;
+  border-radius: 45% 45% 28% 28%;
+}
+
+.character-tsunade .headband {
+  display: none;
+}
+
+.character-tsunade .forehead-mark {
+  opacity: 1;
+}
+
+.character-tsunade .outfit-panel {
+  background:
+    linear-gradient(90deg, #4fa36f 0 28%, #d9d2c1 29% 71%, #4fa36f 72% 100%);
+}
+
+.character-tsunade .outfit-panel::before,
+.character-tsunade .outfit-panel::after {
+  background: #6d4a2f;
+}
+
+.character-hinata .hair-back {
+  left: 9%;
+  width: 82%;
+  height: 76%;
+  border-radius: 44% 44% 18% 18%;
+}
+
+.character-hinata .hair-left,
+.character-hinata .hair-right {
+  top: 24%;
+  height: 58%;
+  width: 30%;
+  border-radius: 44% 44% 20% 20%;
+}
+
+.character-hinata .eye {
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.65);
+}
+
+.character-hinata .headband {
+  display: none;
+}
+
+.character-hinata .outfit-panel {
+  border-radius: 28px 28px 0 0;
+  background:
+    linear-gradient(90deg, transparent 0 45%, #efeaff 46% 54%, transparent 55% 100%),
+    linear-gradient(180deg, #b9abd9 0 70%, #efeaff 71% 100%);
+}
+
+.character-hinata .outfit-panel::before,
+.character-hinata .outfit-panel::after {
+  top: 12%;
+  height: 62%;
+  background: rgba(239, 234, 255, 0.8);
+}
+
+.pet-character.is-happy .aura-ring,
+.pet-character.is-excited .aura-ring,
+.pet-character.is-working .aura-ring {
+  animation: auraPulse 1.1s ease-in-out infinite;
+}
+
+.pet-character.is-eating .hand-left,
+.pet-character.is-eating .hand-right {
+  animation: snackHands 320ms ease-in-out infinite;
+}
+
+.pet-character.is-working .hand-left,
+.pet-character.is-working .hand-right {
+  animation: typingHands 460ms ease-in-out infinite;
+}
+
+.pet-character.is-excited .hair-left,
+.pet-character.is-excited .hair-right,
+.pet-character.is-happy .hair-left,
+.pet-character.is-happy .hair-right {
+  animation: sideHairBounce 680ms ease-in-out infinite;
+}
+
+.speech-bubble {
+  position: absolute;
+  left: 50%;
+  bottom: 205px;
+  max-width: 220px;
+  min-width: 86px;
+  padding: 10px 12px;
+  border: 2px solid rgba(51, 41, 51, 0.12);
+  border-radius: 16px 16px 16px 5px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 14px 30px rgba(51, 41, 51, 0.15);
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.3;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px) scale(0.96);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.speech-bubble.show {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.action-menu {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  width: 232px;
+  padding: 8px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 14px 32px rgba(51, 41, 51, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 10px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.action-menu.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.action-menu button {
+  padding: 7px 4px;
+  font-size: 12px;
+  background: #57445b;
+}
+
+.task-panel {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 282px;
+  bottom: 12px;
+  padding: 13px;
+  border: 1px solid var(--panel-line);
+  border-radius: 16px;
+  background: var(--panel-bg);
+  box-shadow: 0 18px 48px rgba(40, 31, 38, 0.22);
+  opacity: 0;
+  overflow: auto;
+  pointer-events: none;
+  transform: translateY(16px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+body.panel-open .task-panel {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--panel-line);
+}
+
+.eyebrow,
+.panel-header h1,
+.tool-section h2 {
+  margin: 0;
+}
+
+.eyebrow {
+  color: #805f6c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.panel-header h1 {
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ink);
+  font-size: 22px;
+}
+
+.tool-section {
+  display: grid;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--panel-line);
+}
+
+.tool-section:last-child {
+  border-bottom: 0;
+}
+
+.tool-section h2 {
+  font-size: 14px;
+}
+
+.input-row,
+.timer-row,
+.setting-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-row input {
+  min-width: 0;
+}
+
+.input-row button,
+.timer-row button {
+  flex: 0 0 auto;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+}
+
+.stats-grid label {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+meter {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 9px;
+}
+
+.notes-list {
+  display: grid;
+  gap: 6px;
+  max-height: 86px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: auto;
+}
+
+.notes-list li {
+  padding: 7px 8px;
+  border-radius: 8px;
+  background: rgba(142, 230, 207, 0.22);
+  font-size: 12px;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+.timer-display {
+  min-width: 70px;
+  color: #4c3845;
+  font-size: 24px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.setting-row {
+  justify-content: space-between;
+}
+
+.setting-row span {
+  font-size: 13px;
+}
+
+.setting-row select {
+  width: 130px;
+}
+
+.setting-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+@keyframes idleBreath {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(var(--pet-scale));
+  }
+  50% {
+    transform: translateX(-50%) scale(calc(var(--pet-scale) * 1.035), calc(var(--pet-scale) * 0.975));
+  }
+}
+
+@keyframes happyBounce {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0) scale(var(--pet-scale));
+  }
+  45% {
+    transform: translateX(-50%) translateY(-16px) scale(var(--pet-scale));
+  }
+}
+
+@keyframes eatingWiggle {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-2deg) scale(var(--pet-scale));
+  }
+  50% {
+    transform: translateX(-50%) rotate(2deg) scale(var(--pet-scale));
+  }
+}
+
+@keyframes sleepingFloat {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0) scale(var(--pet-scale));
+  }
+  50% {
+    transform: translateX(-50%) translateY(-8px) scale(var(--pet-scale));
+  }
+}
+
+@keyframes workingThink {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(0) scale(var(--pet-scale));
+  }
+  50% {
+    transform: translateX(-50%) rotate(-2deg) scale(var(--pet-scale));
+  }
+}
+
+@keyframes angryShake {
+  0%,
+  100% {
+    transform: translateX(-51%) scale(var(--pet-scale));
+  }
+  50% {
+    transform: translateX(-49%) scale(var(--pet-scale));
+  }
+}
+
+@keyframes hairSway {
+  0%,
+  100% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+}
+
+@keyframes sideHairBounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(6deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(-4deg);
+  }
+}
+
+@keyframes auraPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.76);
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes snackHands {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes typingHands {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-8deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(8deg);
+  }
+}

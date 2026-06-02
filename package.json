@@ -1,0 +1,53 @@
+{
+  "name": "rom-desktop-pet",
+  "version": "1.0.0",
+  "description": "A cute transparent Electron desktop pet for Windows.",
+  "main": "main.js",
+  "author": "RomDesktopPet",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "set CSC_IDENTITY_AUTO_DISCOVERY=false&& electron-builder --publish=never"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.romdesktoppet.app",
+    "productName": "RomDesktopPet",
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "style.css",
+      "renderer.js",
+      "assets/**/*",
+      "data/**/*",
+      "!data/electron-user-data/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "signAndEditExecutable": false,
+      "signDlls": false
+    },
+    "nsis": {
+      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "allowElevation": false
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.${ext}"
+    },
+    "directories": {
+      "buildResources": "assets"
+    }
+  }
+}
