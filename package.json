@@ -5,6 +5,20 @@
   "main": "main.js",
   "author": "RomDesktopPet",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/soloescapeyt-create/DesktopPet.git"
+  },
+  "keywords": [
+    "electron",
+    "desktop-pet",
+    "windows",
+    "javascript",
+    "chibi",
+    "naruto-inspired",
+    "overlay",
+    "productivity"
+  ],
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
